@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres   # Define a versão do PostgreSQL, você pode alterar conforme necessário
+    container_name: desafio-findfriend-db  # Define o nome do container
+    environment:
+      POSTGRES_USER: docker     # Define o usuário do PostgreSQL
+      POSTGRES_PASSWORD: docker    # Define a senha do PostgreSQL
+      POSTGRES_DB: findfriend_db  # Nome do banco de dados a ser criado
+    ports:
+      - "7090:5432"               # Exponha a porta padrão do PostgreSQL
