@@ -1,23 +1,24 @@
 import { it , describe , expect, beforeEach} from "vitest";
 import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
-import  { PetCreateService }  from "./create";
+import  { PetGetAllService }  from "./getAll";
 import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
 
 let repositories: InMemoryPet;
-let sut: PetCreateService;
+let sut: PetGetAllService;
 
 
-describe("Testes de criação de pet", () => {
+describe("Deve se buscar todos os pet", () => {
 
 
     beforeEach(async () => {
         repositories = new InMemoryPet();
-        sut = new PetCreateService(repositories);
+        sut = new PetGetAllService(repositories);
     })
 
-    it("Deve criar um pet", async () => {
+    it("Deve ser possivel buscar todos os pet", async () => {
 
         const pet = {
+            id: '1',
             nome: "Rex",
             idade: Idade.ADULTO,
             energia: Energia.ALTA,
@@ -28,10 +29,20 @@ describe("Testes de criação de pet", () => {
             organizacaoId: "1"
         }
 
-        await sut.create(pet);
-        expect(repositories.pets.length).toEqual(1);
+        const pet2 = {
+            ...pet,
+            id: '2',
+            nome: "Rex2",
+        }
+
+        repositories.pets.push(pet);
+        repositories.pets.push(pet2);
 
 
+
+        await sut.getAll();
+
+        expect(repositories.pets.length).toBe(2);
 
     });
 })

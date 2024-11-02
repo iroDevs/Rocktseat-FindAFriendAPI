@@ -11,7 +11,8 @@ export class PrismaPet implements IPetRepository {
     }
 
     async get() {
-        return await prisma.pet.findMany();
+        const pets = await prisma.pet.findMany();
+        return pets;
     }
 
     async getById(id: string){

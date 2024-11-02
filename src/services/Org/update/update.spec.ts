@@ -1,13 +1,13 @@
 import { it , describe , expect, beforeEach} from "vitest";
 import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
-import  { PetCreateService }  from "./create";
+import  { PetCreateService }  from "./update";
 import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
 
 let repositories: InMemoryPet;
 let sut: PetCreateService;
 
 
-describe("Testes de criação de pet", () => {
+describe("Testes de update de pet", () => {
 
 
     beforeEach(async () => {
@@ -15,9 +15,10 @@ describe("Testes de criação de pet", () => {
         sut = new PetCreateService(repositories);
     })
 
-    it("Deve criar um pet", async () => {
+    it("Deve atualizar um pet", async () => {
 
         const pet = {
+            id: '1',
             nome: "Rex",
             idade: Idade.ADULTO,
             energia: Energia.ALTA,
@@ -28,8 +29,24 @@ describe("Testes de criação de pet", () => {
             organizacaoId: "1"
         }
 
-        await sut.create(pet);
-        expect(repositories.pets.length).toEqual(1);
+        repositories.pets.push(pet);
+
+        const petUpdate = {
+            nome: "Rex Atualizado",
+            idade: Idade.ADULTO,
+            energia: Energia.ALTA,
+            idependencia: Idependencia.MEDIO,
+            porte: Porte.GRANDE,
+            ambiente: Ambiente.CASA,
+            descricao: "Rex é um cachorro muito brincalhão",
+            organizacaoId: "1"
+        }
+
+        await sut.update('1', petUpdate);
+
+        const petAtualizado = repositories.pets[0];
+
+        expect(petAtualizado.nome).toBe("Rex Atualizado");
 
 
 

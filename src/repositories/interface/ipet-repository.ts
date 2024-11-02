@@ -5,5 +5,5 @@ export interface IPetRepository {
     get(): Promise<Pet[]>;
     getById(id: string): Promise<Pet | null>;
     delete(id: string): Promise<void>;
-    update(id: string, pet: Pet): Promise<void>;
+    update(id: string, pet: Prisma.PetUncheckedUpdateInput): Promise<void>;
 }
