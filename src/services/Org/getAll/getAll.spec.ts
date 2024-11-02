@@ -1,18 +1,18 @@
 import { it , describe , expect, beforeEach} from "vitest";
-import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
-import  { PetCreateService }  from "./getAll";
+import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
+import  { OrgGetAllService }  from "./getAll";
 import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
 
-let repositories: InMemoryPet;
-let sut: PetCreateService;
+let repositories: InMemoryOrg;
+let sut: OrgGetAllService;
 
 
 describe("Deve se buscar todos os pet", () => {
 
 
     beforeEach(async () => {
-        repositories = new InMemoryPet();
-        sut = new PetCreateService(repositories);
+        repositories = new InMemoryOrg();
+        sut = new OrgGetAllService(repositories);
     })
 
     it("Deve ser possivel buscar todos os pet", async () => {

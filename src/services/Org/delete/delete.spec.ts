@@ -1,9 +1,9 @@
 import { it , describe , expect, beforeEach} from "vitest";
-import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
+import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
 import  { OrgDeleteService }  from "./delete";
 import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
 
-let repositories: InMemoryPet;
+let repositories: InMemoryOrg;
 let sut: OrgDeleteService;
 
 
@@ -11,7 +11,7 @@ describe("Testes de update de pet", () => {
 
 
     beforeEach(async () => {
-        repositories = new InMemoryPet();
+        repositories = new InMemoryOrg();
         sut = new OrgDeleteService(repositories);
     })
 
