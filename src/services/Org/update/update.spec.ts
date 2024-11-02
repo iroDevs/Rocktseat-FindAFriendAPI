@@ -1,54 +1,36 @@
 import { it , describe , expect, beforeEach} from "vitest";
-import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
-import  { PetCreateService }  from "./update";
-import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
+import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
+import  { OrgUpdateService }  from "./update";
+import { randomUUID } from "crypto";
 
-let repositories: InMemoryPet;
-let sut: PetCreateService;
+let repositories: InMemoryOrg;
+let sut: OrgUpdateService;
 
 
-describe("Testes de update de pet", () => {
+describe("Testes de atualização de org", () => {
 
 
     beforeEach(async () => {
-        repositories = new InMemoryPet();
-        sut = new PetCreateService(repositories);
+        repositories = new InMemoryOrg();
+        sut = new OrgUpdateService(repositories);
     })
 
-    it("Deve atualizar um pet", async () => {
+    it("Deve ser possivel atualizar uma org", async () => {
 
-        const pet = {
+        const org = {
             id: '1',
-            nome: "Rex",
-            idade: Idade.ADULTO,
-            energia: Energia.ALTA,
-            idependencia: Idependencia.MEDIO,
-            porte: Porte.GRANDE,
-            ambiente: Ambiente.CASA,
-            descricao: "Rex é um cachorro muito brincalhão",
-            organizacaoId: "1"
+            nome: "nova org",
+            cidade: 'Belo Horizonte',
+            uf: "MG",
+            telefone: "9932359393",
+            email: 'email@email.com',
+            password: randomUUID()
         }
 
-        repositories.pets.push(pet);
+        repositories.orgs.push(org);
 
-        const petUpdate = {
-            nome: "Rex Atualizado",
-            idade: Idade.ADULTO,
-            energia: Energia.ALTA,
-            idependencia: Idependencia.MEDIO,
-            porte: Porte.GRANDE,
-            ambiente: Ambiente.CASA,
-            descricao: "Rex é um cachorro muito brincalhão",
-            organizacaoId: "1"
-        }
-
-        await sut.update('1', petUpdate);
-
-        const petAtualizado = repositories.pets[0];
-
-        expect(petAtualizado.nome).toBe("Rex Atualizado");
-
-
+        await sut.update('1',org);
+        expect(repositories.orgs.length).toEqual(1);
 
     });
 })

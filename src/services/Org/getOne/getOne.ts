@@ -1,12 +1,12 @@
-import { Pet } from "@prisma/client";
-import { IPetRepository } from "../../../repositories/interface/ipet-repository";
+import { Organizacao } from "@prisma/client";
+import { IOrgRepository } from "../../../repositories/interface/iorg-repository";
 
 
 
-export class PetCreateService {
-    constructor(private petRepository: IPetRepository) {}
+export class OrgGetOneService {
+    constructor(private petRepository: IOrgRepository) {}
 
-    async getOne(id: string): Promise<Pet | null> {
+    async getOne(id: string): Promise<Organizacao | null> {
         const pet = await this.petRepository.getById(id);
         return pet;
     }

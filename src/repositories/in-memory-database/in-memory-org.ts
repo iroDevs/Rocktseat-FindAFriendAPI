@@ -2,18 +2,18 @@ import { Organizacao } from '@prisma/client';
 import { IOrgRepository } from '../interface/iorg-repository';
 
 export class InMemoryOrg implements IOrgRepository {
-    public pets: Organizacao[] = [];
+    public orgs: Organizacao[] = [];
 
     async create(org: Organizacao) {
-        this.pets.push(org);
+        this.orgs.push(org);
     }
 
     async get() {
-        return this.pets;
+        return this.orgs;
     }
 
     async getById(id: string) {
-        const org = this.pets.find((org) => org.id === id);
+        const org = this.orgs.find((org) => org.id === id);
 
         if (org) {
             return org;
@@ -23,15 +23,15 @@ export class InMemoryOrg implements IOrgRepository {
     }
 
     async delete(id: string) {
-        this.pets = this.pets.filter((org) => org.id !== id);
+        this.orgs = this.orgs.filter((org) => org.id !== id);
     }
 
     async update(id: string, org: Organizacao) {
-        this.pets = this.pets.map((p) => (p.id === id ? org : p));
+        this.orgs = this.orgs.map((p) => (p.id === id ? org : p));
     }
 
     async getByName(name: string) {
-        const org = this.pets.find((org) => org.nome === name);
+        const org = this.orgs.find((org) => org.nome === name);
 
         if (org) {
             return org;

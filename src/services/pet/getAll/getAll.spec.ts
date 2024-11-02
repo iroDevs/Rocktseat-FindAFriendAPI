@@ -17,6 +17,28 @@ describe("Deve se buscar todos os pet", () => {
 
     it("Deve ser possivel buscar todos os pet", async () => {
 
+        repositories.organizacoes.push(
+            {
+            id: '1',
+            nome: "ONG dos bichos",
+            cidade: "São Paulo",
+            uf: "MG",
+            telefone: "99",
+            email: "email.com",
+            password: "31312"
+        },
+        {
+            id: '2',
+            nome: "ONG dos bichos",
+            cidade: "Belo Horizonte",
+            uf: "MG",
+            telefone: "99",
+            email: "email.com",
+            password: "31312"
+        }
+
+    )
+
         const pet = {
             id: '1',
             nome: "Rex",
@@ -33,6 +55,7 @@ describe("Deve se buscar todos os pet", () => {
             ...pet,
             id: '2',
             nome: "Rex2",
+            organizacaoId: "2"
         }
 
         repositories.pets.push(pet);
@@ -40,9 +63,9 @@ describe("Deve se buscar todos os pet", () => {
 
 
 
-        await sut.getAll();
+        const pets = await sut.getAll({cidade: "São Paulo"});
 
-        expect(repositories.pets.length).toBe(2);
+        expect(pets.length).toBe(1);
 
     });
 })

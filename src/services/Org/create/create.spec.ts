@@ -1,13 +1,13 @@
 import { it , describe , expect, beforeEach} from "vitest";
 import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
 import  { OrgCreateService }  from "./create";
-import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 let repositories: InMemoryOrg;
 let sut: OrgCreateService;
 
 
-describe("Testes de criação de pet", () => {
+describe("Testes de criação de org", () => {
 
 
     beforeEach(async () => {
@@ -15,21 +15,19 @@ describe("Testes de criação de pet", () => {
         sut = new OrgCreateService(repositories);
     })
 
-    it("Deve criar um pet", async () => {
+    it("Deve ser possivel criar uma org", async () => {
 
-        const pet = {
-            nome: "Rex",
-            idade: Idade.ADULTO,
-            energia: Energia.ALTA,
-            idependencia: Idependencia.MEDIO,
-            porte: Porte.GRANDE,
-            ambiente: Ambiente.CASA,
-            descricao: "Rex é um cachorro muito brincalhão",
-            organizacaoId: "1"
+        const org = {
+            nome: "nova org",
+            cidade: 'Belo Horizonte',
+            uf: "MG",
+            telefone: "9932359393",
+            email: 'email@email.com',
+            password: randomUUID()
         }
 
-        await sut.create(pet);
-        expect(repositories.pets.length).toEqual(1);
+        await sut.create(org);
+        expect(repositories.orgs.length).toEqual(1);
 
 
 

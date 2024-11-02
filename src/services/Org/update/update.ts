@@ -1,23 +1,21 @@
-import { $Enums } from "@prisma/client";
-import { IPetRepository } from "../../../repositories/interface/ipet-repository";
+
+import { IOrgRepository } from "../../../repositories/interface/iorg-repository";
 
 
 
-interface PetCreateRequest {
+interface OrgRequest {
     nome: string
-    idade: $Enums.Idade
-    energia: $Enums.Energia
-    idependencia: $Enums.Idependencia
-    porte: $Enums.Porte
-    ambiente: $Enums.Ambiente
-    descricao: string
-    organizacaoId: string
+    cidade: string
+    uf: string
+    telefone: string
+    email: string
+    password: string
 }
 
-export class PetCreateService {
-    constructor(private petRepository: IPetRepository) {}
+export class OrgUpdateService {
+    constructor(private petRepository: IOrgRepository) {}
 
-    async update(id: string, pet: PetCreateRequest): Promise<void> {
-        await this.petRepository.update(id, pet);
+    async update(id: string, org: OrgRequest): Promise<void> {
+        await this.petRepository.update(id, org);
     }
 }

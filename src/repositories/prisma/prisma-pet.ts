@@ -1,3 +1,4 @@
+import { Filtro } from "../../interfaces/Filtro";
 import prisma from "../../lib/prisma";
 import { IPetRepository } from "../interface/ipet-repository";
 import { Prisma } from "@prisma/client";
@@ -10,8 +11,31 @@ export class PrismaPet implements IPetRepository {
         });
     }
 
-    async get() {
-        const pets = await prisma.pet.findMany();
+     makeWhere(filtro:Filtro): Prisma.PetWhereInput {
+        const where: Prisma.PetWhereInput = {
+            organizacao: {
+                cidade: filtro.cidade
+            },
+            ...(filtro.nome && { nome: { contains: filtro.nome } }),
+            ...(filtro.idade && { idade: filtro.idade }),
+            ...(filtro.porte && { porte: filtro.porte }),
+            ...(filtro.ambiente && { ambiente: filtro.ambiente }),
+            ...(filtro.idependencia && { idependencia: filtro.idependencia }),
+        };
+        return where;
+
+    }
+
+    async get(filtro: Filtro) {
+        const where: Prisma.PetWhereInput = this.makeWhere(filtro);
+
+        const pets = await prisma.pet.findMany({
+            include: {
+                organizacao: true
+            },
+            where
+        });
+
         return pets;
     }
 

@@ -1,13 +1,13 @@
 import { it , describe , expect, beforeEach} from "vitest";
 import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
 import  { OrgDeleteService }  from "./delete";
-import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 let repositories: InMemoryOrg;
 let sut: OrgDeleteService;
 
 
-describe("Testes de update de pet", () => {
+describe("Testes de deletar de org", () => {
 
 
     beforeEach(async () => {
@@ -15,22 +15,25 @@ describe("Testes de update de pet", () => {
         sut = new OrgDeleteService(repositories);
     })
 
-    it("Deve deletar um pet", async () => {
+    it("Deve ser possivel deletar uma org", async () => {
 
-        const pet = {
+        const org = {
             id: '1',
-            nome: "Rex",
-            idade: Idade.ADULTO,
-            energia: Energia.ALTA,
-            idependencia: Idependencia.MEDIO,
-            porte: Porte.GRANDE,
-            ambiente: Ambiente.CASA,
-            descricao: "Rex é um cachorro muito brincalhão",
-            organizacaoId: "1"
+            nome: "nova org",
+            cidade: 'Belo Horizonte',
+            uf: "MG",
+            telefone: "9932359393",
+            email: 'email@email.com',
+            password: randomUUID()
         }
 
-        repositories.pets.push(pet);
+        repositories.orgs.push(org);
+
         await sut.delete('1');
-        expect(repositories.pets.length).toBe(0);
+
+        expect(repositories.orgs.length).toEqual(0);
+
+
+
     });
 })

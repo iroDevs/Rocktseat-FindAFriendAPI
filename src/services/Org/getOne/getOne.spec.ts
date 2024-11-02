@@ -1,43 +1,51 @@
 import { it , describe , expect, beforeEach} from "vitest";
-import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
-import  { PetCreateService }  from "./getOne";
-import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
+import { InMemoryOrg } from '../../../repositories/in-memory-database/in-memory-org'
+import  { OrgGetOneService }  from "./getOne";
+import { randomUUID } from "crypto";
 
-let repositories: InMemoryPet;
-let sut: PetCreateService;
+let repositories: InMemoryOrg;
+let sut: OrgGetOneService;
 
 
-describe("Deve se buscar um pet", () => {
+describe("Deve se buscar uma org", () => {
 
 
     beforeEach(async () => {
-        repositories = new InMemoryPet();
-        sut = new PetCreateService(repositories);
+        repositories = new InMemoryOrg();
+        sut = new OrgGetOneService(repositories);
     })
 
-    it("Deve ser possivel buscar um pet", async () => {
+    it("Deve ser possivel buscar todas as org", async () => {
 
-        const pet = {
+        const org = {
             id: '1',
-            nome: "Rex",
-            idade: Idade.ADULTO,
-            energia: Energia.ALTA,
-            idependencia: Idependencia.MEDIO,
-            porte: Porte.GRANDE,
-            ambiente: Ambiente.CASA,
-            descricao: "Rex é um cachorro muito brincalhão",
-            organizacaoId: "1"
+            nome: "nova org",
+            cidade: 'Belo Horizonte',
+            uf: "MG",
+            telefone: "9932359393",
+            email: 'email@email.com',
+            password: randomUUID()
         }
 
-        repositories.pets.push(pet);
+        const org2 = {
+            ...org,
+            id: '2',
+            nome: "org 2",
+        }
+
+        repositories.orgs.push(org);
+        repositories.orgs.push(org2);
 
 
 
-        await sut.getOne('1');
+        const fetchOrg = await sut.getOne('2');
 
-        const petCapturado = repositories.pets[0];
+        if (!fetchOrg) {
+            expect(false);
+            throw new Error('Org não encontrada');
+        }
 
-        expect(petCapturado.nome).toBe("Rex");
+        expect(fetchOrg.nome).toBe('org 2');
 
     });
 })
