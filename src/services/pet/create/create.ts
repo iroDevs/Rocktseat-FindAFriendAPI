@@ -11,8 +11,9 @@ interface PetCreateRequest {
     porte: $Enums.Porte
     ambiente: $Enums.Ambiente
     descricao: string
-    organizacaoId: string
+    organizacaoId: string,
 }
+
 
 export class PetCreateService {
     constructor(private petRepository: IPetRepository) {}
