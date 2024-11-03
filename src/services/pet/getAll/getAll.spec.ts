@@ -2,6 +2,8 @@ import { it , describe , expect, beforeEach} from "vitest";
 import { InMemoryPet } from '../../../repositories/in-memory-database/in-memory-pet'
 import  { PetGetAllService }  from "./getAll";
 import { Ambiente, Energia, Idade, Idependencia, Porte } from "@prisma/client";
+import { Filtro } from "../../../interfaces/Filtro";
+import { CityNotInformed } from "../../../erro/errors/city-not-informed";
 
 let repositories: InMemoryPet;
 let sut: PetGetAllService;
@@ -58,14 +60,38 @@ describe("Deve se buscar todos os pet", () => {
             organizacaoId: "2"
         }
 
+        const pet3 = {
+            ...pet,
+            id: '3',
+            nome: "Rex3",
+            organizacaoId: "1"
+        }
+
         repositories.pets.push(pet);
         repositories.pets.push(pet2);
+        repositories.pets.push(pet3);
 
+        const filtro: Filtro = {
+            cidade: "São Paulo",
+        }
 
+        const pets = await sut.getAll(filtro);
 
-        const pets = await sut.getAll({cidade: "São Paulo"});
-
-        expect(pets.length).toBe(1);
+        expect(pets.length).toBe(2);
 
     });
+
+    it("Deve retornar um erro caso a cidade não seja informada", async () => {
+
+            const filtro: Filtro = {
+                cidade: "",
+            }
+
+            try {
+                await sut.getAll(filtro);
+            } catch (error) {
+                expect(error).toBeInstanceOf(CityNotInformed);
+            }
+    })
+
 })
