@@ -1,7 +1,7 @@
 import { Foto, Prisma } from "@prisma/client";
 
 export interface IFotoRepository {
-    create(org: Prisma.FotoUncheckedCreateInput): Promise<void>;
+    create(foto: Prisma.FotoUncheckedCreateInput): Promise<void>;
     get(): Promise<Foto[]>;
     getById(id: string): Promise<Foto | null>;
     delete(id: string): Promise<void>;

@@ -4,10 +4,10 @@ import { IFotoRepository } from "../../../repositories/interface/ifoto-repositor
 
 
 
-export class FotoGetByIdService {
+export class FotoGetByPetIdService {
     constructor(private fotoRepository: IFotoRepository) {}
 
-    async getById(id: string): Promise<Foto | null> {
-        return await this.fotoRepository.getById(id);
+    async getByPetId(id: string): Promise<Foto[]> {
+        return await this.fotoRepository.getByPetId(id);
     }
 }
