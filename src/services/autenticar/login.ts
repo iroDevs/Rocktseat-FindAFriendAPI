@@ -1,5 +1,6 @@
-import { randomUUID } from "crypto";
+
 import { IloginRepository } from "../../repositories/interface/ilogin-repository";
+import { Organizacao } from "@prisma/client";
 
 
 
@@ -8,20 +9,14 @@ interface dataRequest {
     senha: string;
 }
 
-interface dataResponse {
-    token: string;
-}
+
 
 export class LoginService {
     constructor(private loginRepository: IloginRepository) {}
 
-    async login(data: dataRequest): Promise<dataResponse> {
+    async login(data: dataRequest): Promise<Organizacao> {
         const org = await this.loginRepository.login(data);
 
-        //gera um token falso por enquanto
-        const orgString = JSON.stringify(org);
-        const token = randomUUID()+orgString;
-
-        return {token};
+        return org;
     }
 }

@@ -1,11 +1,10 @@
 import fastify from "fastify";
-
+import {PetsRoutes} from "./http/routes/pet-route";
 
 const app = fastify();
 
-app.get("/", async (request, reply) => {
-    return { hello: "world" };
-});
+app.register(PetsRoutes, { prefix: '/pet' });
+
 
 
 export default app;

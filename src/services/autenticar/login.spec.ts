@@ -34,7 +34,7 @@ describe("Testes de login", () => {
             repositories.org.push(organizacao);
 
             const login = await sut.login({ email: organizacao.email, senha: password });
-            expect(login).toHaveProperty('token');
+            expect(login).toEqual(organizacao);
         });
 
         it("Deve falhar ao tentar login com senha incorreta", async () => {

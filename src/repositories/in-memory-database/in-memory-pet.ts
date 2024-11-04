@@ -1,10 +1,11 @@
-import { Organizacao, Pet } from '@prisma/client';
+import { Foto, Organizacao, Pet } from '@prisma/client';
 import { IPetRepository } from '../interface/ipet-repository';
 import { Filtro } from '../../interfaces/Filtro';
 
 export class InMemoryPet implements IPetRepository {
     public pets: Pet[] = [];
     public organizacoes: Organizacao[] = [];
+    public fotos: Foto[] = [];
 
     async create(pet: Pet) {
         this.pets.push(pet);
